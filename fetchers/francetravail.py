@@ -7,7 +7,7 @@ import uuid
 from typing import Any
 
 import requests
-from tenacity import retry, stop_after_attempt, wait_exponential
+from tenacity import retry, stop_after_attempt, wait_exponential, RetryError
 
 from config import (
     FRANCE_TRAVAIL_CLIENT_ID,
@@ -221,6 +221,10 @@ class FranceTravailFetcher(BaseFetcher):
                     results = self._search_by_rome(rome_code, dept_code)
                     self._collect_results(results, seen_hashes, offers)
                     polite_sleep(1.0, 2.0)
+                except RetryError:
+                    self.logger.warning(
+                        "ROME search %s in %s failed after retries, skipping", rome_code, dept_name,
+                    )
                 except Exception:
                     self.logger.exception(
                         "Error ROME search %s in %s", rome_code, dept_name,
@@ -233,6 +237,10 @@ class FranceTravailFetcher(BaseFetcher):
                     results = self._search(kw, dept_code)
                     self._collect_results(results, seen_hashes, offers)
                     polite_sleep(1.0, 2.0)
+                except RetryError:
+                    self.logger.warning(
+                        "Keyword search '%s' in %s failed after retries, skipping", kw, dept_name,
+                    )
                 except Exception:
                     self.logger.exception(
                         "Error searching '%s' in %s", kw, dept_name,
