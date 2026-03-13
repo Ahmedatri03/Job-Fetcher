@@ -265,3 +265,90 @@ Oracle Cloud VM (Oracle Linux 9.x)
         ├── Résumé quotidien à 20h
         └── SQLite : data/jobs.db (persisté via volume)
 ```
+
+---
+---
+
+# Alternative : Déploiement sur Railway
+
+Railway est une plateforme cloud plus simple à configurer qu'Oracle Cloud, mais payante après la période d'essai.
+
+---
+
+## 1. Créer un compte Railway
+
+1. Aller sur **https://railway.app**
+2. Se connecter avec **GitHub**
+3. Vérifier son compte (email ou carte bancaire pour débloquer le Trial)
+
+> **Trial Plan** : $5 de crédit gratuit (~7-10 jours de fonctionnement 24/7)  
+> **Hobby Plan** : $5/mois pour un usage illimité
+
+---
+
+## 2. Déployer depuis GitHub
+
+1. Cliquer sur **New Project**
+2. Choisir **Deploy from GitHub repo**
+3. Sélectionner le repo **Job-Fetcher**
+4. Railway détecte automatiquement le `Dockerfile` et lance le build
+
+---
+
+## 3. Configurer les variables d'environnement
+
+Dans Railway : **Projet** → **Service** → onglet **Variables**
+
+Ajouter ces variables (copier les valeurs depuis votre `.env` local) :
+
+| Variable | Description |
+|----------|-------------|
+| `TELEGRAM_BOT_TOKEN` | Token du bot Telegram (@BotFather) |
+| `TELEGRAM_CHAT_ID` | ID du chat Telegram |
+| `FRANCE_TRAVAIL_CLIENT_ID` | Client ID France Travail API |
+| `FRANCE_TRAVAIL_CLIENT_SECRET` | Client Secret France Travail API |
+| `SCORE_THRESHOLD` | Score minimum (défaut: 50) |
+| `FETCH_INTERVAL_HOURS` | Intervalle de fetch (défaut: 1) |
+| `MAX_OFFER_AGE_DAYS` | Âge max des offres (défaut: 15) |
+| `LOG_LEVEL` | Niveau de log (défaut: INFO) |
+
+> Railway redéploie automatiquement après chaque modification de variable.
+
+---
+
+## 4. Vérifier le déploiement
+
+1. Onglet **Deployments** → vérifier que le statut est **Active**
+2. Onglet **Logs** → vérifier les logs en temps réel
+3. Tester le bot Telegram avec `/start`
+
+---
+
+## 5. Commandes utiles
+
+Railway gère tout automatiquement :
+- **Redéploiement** : à chaque `git push` sur GitHub
+- **Restart** : cliquer sur **Restart** dans l'interface
+- **Logs** : onglet **Logs** en temps réel
+
+---
+
+## 6. Résumé des coûts Railway
+
+| Plan | Coût | Durée |
+|------|------|-------|
+| **Trial** | $5 offerts | ~7-10 jours |
+| **Hobby** | $5/mois | Illimité |
+
+---
+
+## Comparaison Oracle Cloud vs Railway
+
+| Critère | Oracle Cloud | Railway |
+|---------|--------------|---------|
+| **Coût** | Gratuit à vie | $5/mois après trial |
+| **Complexité** | Moyenne (SSH, Docker) | Simple (GitHub + UI) |
+| **Setup** | ~30 min | ~5 min |
+| **Contrôle** | Total (VM complète) | Limité (conteneur managé) |
+
+**Recommandation** : Railway pour tester rapidement, Oracle Cloud pour du gratuit permanent.
