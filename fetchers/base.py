@@ -47,18 +47,56 @@ class BaseFetcher(ABC):
     def _build_search_queries(self) -> list[str]:
         """Return a broad set of search keywords covering French/English titles and tech stacks."""
         return [
+            # titres principaux
             "développeur",
+            "développeur logiciel",
+            "développeur backend",
+            "développeur full stack",
+            "développeur web",
             "ingénieur logiciel",
             "ingénieur développement",
-            "ingénieur études",
+            "ingénieur informatique",
             "software engineer",
-            "developer",
-            "full stack",
-            ".NET C#",
-            "React Node.js",
-            "Python Django",
-            "Power BI SQL",
+            "software developer",
+            "full stack developer",
+            "backend developer",
+            # junior / premier emploi
+            "développeur junior",
+            "ingénieur logiciel junior",
+            "junior developer",
+            # backend / api
+            "backend",
+            "api",
+            "api rest",
+            "microservices",
+            # langages principaux
+            "python",
+            "javascript",
+            "typescript",
+            "c#",
+            ".net",
+            "node",
+            "node.js",
+            # frontend
+            "react",
+            "react developer",
+            "frontend developer",
+            # data / BI
             "data analyst",
+            "analyste data",
+            "analyste bi",
+            "business intelligence",
+            "power bi",
+            "data",
+            "analytics",
+            # base de données
+            "sql",
+            "postgresql",
+            "mysql",
+            # généralistes IT
+            "informatique",
+            "développement",
+            "logiciel",
         ]
 
     def _build_location_queries(self) -> list[str]:
